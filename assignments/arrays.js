@@ -56,6 +56,7 @@ let inventory = [
 
 // console.log(inventory[1]);
 
+// Helper Functions
 // Lookup function
 const findCarHelper = (param) => {
   let call = param.toLowerCase();
@@ -163,6 +164,3 @@ const makeFilter = (arr = inventory, make1 = "BMW", make2 = "Audi") => {
   return JSON.stringify(filteredArr);
 }
 console.log(makeFilter());
-
-
-
