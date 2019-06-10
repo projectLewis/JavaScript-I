@@ -57,7 +57,8 @@ let inventory = [
 // console.log(inventory[1]);
 
 // Lookup function
-const categoryHelp = (call) => {
+const keyHelper = (param) => {
+  let call = param.toLowerCase();
   let lookup = "";
   if (call === "id") {
     lookup = "id";
@@ -76,37 +77,51 @@ const categoryHelp = (call) => {
 // console.log(lookupHelper("make"));
 
 // Check Car function for challenges 1 & 2 here
+// const checkCar = (arr, key1, key2, index = "last") => {
+//   let newArr = [];
+//   let i = 0;
+//   let newKey = key1.toLowerCase();
+//   if (index === "last") {
+//     i = arr.length - 1;
+//   }
+//   else {
+//     i = index - 1;
+//   }
+//   const checkCarActual = (index2, key2) => {
+//     if (newKey === "id") {
+//       return newArr.push(arr[i].id);
+//     }
+//     else if (newKey === "car_make" || newKey === "car make" || newKey === "make") {
+//       return newArr.push(arr[i].car_make);
+//     }
+//     else if (newKey === "car_model" || newKey === "car model" || newKey === "model") {
+//       return newArr.push(arr[i].car_model);
+//     }
+//     else if (newKey === "car_year" || newKey === "car year" || newKey === "year") {
+//       return newArr.push(arr[i].car_year);
+//     }
+//   }
+//   checkCarActual(i, newKey);
+//   if (key2 !== undefined) {
+//     newKey = key2.toLowerCase();
+//     checkCarActual(i, newKey);
+//   }
+//   return newArr;
+// }
+
 const checkCar = (arr, key1, key2, index = "last") => {
   let newArr = [];
   let i = 0;
-  let newKey = key1.toLowerCase();
   if (index === "last") {
     i = arr.length - 1;
   }
   else {
     i = index - 1;
   }
-  const checkCarActual = (index2, key2) => {
-    if (newKey === "id") {
-      return newArr.push(arr[i].id);
-    }
-    else if (newKey === "car_make" || newKey === "car make" || newKey === "make") {
-      return newArr.push(arr[i].car_make);
-    }
-    else if (newKey === "car_model" || newKey === "car model" || newKey === "model") {
-      return newArr.push(arr[i].car_model);
-    }
-    else if (newKey === "car_year" || newKey === "car year" || newKey === "year") {
-      return newArr.push(arr[i].car_year);
-    }
-  }
-  checkCarActual(i, newKey);
-  if (key2 !== undefined) {
-    newKey = key2.toLowerCase();
-    checkCarActual(i, newKey);
-  }
+  newArr.push(arr[i][keyHelper(key1)]);
+  newArr.push(arr[i][keyHelper(key2)]);
   return newArr;
-}
+};
 
 // ==== Challenge 1 ====
 // The dealer can't recall the information for a car with an id of 33 on his lot. Help the dealer find out which car has an id of 33 by logging the car's year, make, and model in the console log provided to you below:
@@ -120,25 +135,43 @@ console.log(checkCar(inventory, "make", "model"));
 
 // ==== Challenge 3 ====
 // The marketing team wants the car models listed alphabetically on the website. Sort all the car model names into alphabetical order and log the results in the console
-const azOrder = (arr = inventory) => {
-  let carModels = [];
+// const azOrder = (arr = inventory) => {
+//   let carModels = [];
+//   const compare = (a, b) => {
+//     const models1 = a.car_model.toLowerCase();
+//     const models2 = b.car_model.toLowerCase();
+
+//     let comparison = 0;
+//     if (models1 > models2) {
+//       comparison = 1;
+//     } else if (models2 > models1) {
+//       comparison = -1;
+//     }
+//     return comparison;
+//   }
+//   carModels = arr.sort(compare);
+//   return carModels;
+// }
+// console.table(azOrder());
+const arrOrder = (arr = inventory, category = "car_model") => {
+  let returnedArray = [];
   const compare = (a, b) => {
     // Use toUpperCase() to ignore character casing
-    const models1 = a.car_model.toLowerCase();
-    const models2 = b.car_model.toLowerCase();
+    const Alist = a[keyHelper(category)];
+    const Blist = b[keyHelper(category)];
 
     let comparison = 0;
-    if (models1 > models2) {
+    if (Alist > Blist) {
       comparison = 1;
-    } else if (models2 > models1) {
+    } else if (Blist > Alist) {
       comparison = -1;
     }
     return comparison;
   }
-  carModels = arr.sort(compare);
-  return carModels;
+  returnedArray = arr.sort(compare);
+  return returnedArray;
 }
-// console.table(azOrder());
+console.table(arrOrder());
 
 // ==== Challenge 4 ====
 // The accounting team needs all the years from every car on the lot. Create a new array from the dealer data containing only the car years and log the result in the console.
@@ -146,12 +179,11 @@ const azOrder = (arr = inventory) => {
 const logCarInfo = (arg = "year") => {
   let carYears = [];
   inventory.forEach((element) => {
-    carYears.push(element[categoryHelp(arg)]);
-    // console.log(carYears);
+    carYears.push(element[keyHelper(arg)]);
   });
   return carYears;
 }
-console.table(logCarInfo());
+// console.table(logCarInfo());
 
 // ==== Challenge 5 ====
 // The car lot manager needs to find out how many cars are older than the year 2000. Using the carYears array you just created, find out how many cars were made before the year 2000 by populating the array oldCars and logging it's length.
