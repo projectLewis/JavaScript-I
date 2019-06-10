@@ -142,7 +142,7 @@ const yearFilter = (arr = inventory, year = 2000) => {
   }
   workingArr = logCarInfo(arr);
   const filteredArr = workingArr.filter(older);
-  return filteredArr;
+  return filteredArr.length;
 }
 console.table(yearFilter());
 
